@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrial Service Call Booking</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+        
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: white;;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #333;
+        }
+        
+        /* Navbar */
+        .navbar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        
+        .navbar .brand {
+            font-size: 18px;
+            font-weight: 700;
+            color: #007bff;
+        }
+        
+        .navbar-links {
+            display: flex;
+        }
+        
+        .navbar a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 14px;
+            margin-left: 15px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .navbar a:hover {
+            color: #0056b3;
+        }
+        
+        /* Search Page */
+        .search-page {
+            padding: 80px 15px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .image {
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 30px;
+            animation: float 3s infinite alternate ease-in-out;
+        }
+        
+        @keyframes float {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+        
+        .search-section {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: #007bff;
+            margin-bottom: 15px;
+            font-size: 22px;
+            text-align: center;
+        }
+        
+        .search-box {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-box-input-container {
+            display: flex;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            padding: 10px 12px;
+            font-size: 14px;
+            outline: none;
+            height: 40px;
+        }
+
+        .search-box button {
+            background: #007bff;
+            border: none;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .search-box button img {
+            width: 18px;
+            height: 18px;
+        }
+
+        .suggestions {
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 0;
+            width: 100%;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+        }
+        
+        .suggestion-item {
+            padding: 12px 15px;
+            background: white;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        .suggestion-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .suggestion-item svg {
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        
+        .suggestion-item .highlight {
+            font-weight: bold;
+            color: #1a73e8;
+        }
+        
+        .suggestion-item.no-results {
+            color: #666;
+            font-style: italic;
+            cursor: default;
+        }
+        
+        /* Details Page */
+        .details-page {
+            display: none;
+            padding: 80px 15px 30px;
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .details-page.visible {
+            display: block;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #1a73e8;
+            background: transparent;
+            color: #1a73e8;
+            font-size: 18px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #1a73e8;
+            color: white;
+            width: 120px;
+            border-radius: 20px;
+        }
+        
+        .back-btn:hover::after {
+            content: " Back";
+            font-size: 14px;
+            margin-left: 5px;
+        }
+        
+        .main-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #1a73e8;
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        .content-container {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+        }
+        
+        .customer-machine-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Reduced gap for mobile */
+        }
+        
+        .customer-box {
+            padding: 12px; /* Reduced padding */
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+        }
+        
+        .machine-box {
+            padding: 12px; /* Reduced padding */
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+        }
+        
+        .machine-box.selected {
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.1);
+        }
+        
+        .section-title {
+            color: #1a73e8;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 10px; /* Reduced margin */
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title svg {
+            margin-right: 8px; /* Reduced margin */
+            width: 16px; /* Smaller icon */
+            height: 16px;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two columns for mobile */
+            gap: 8px; /* Reduced gap */
+        }
+        
+        .detail-item {
+            margin-bottom: 6px; /* Reduced margin */
+        }
+        
+        .detail-label {
+            color: #1a73e8;
+            font-size: 12px; /* Smaller font */
+            font-weight: 500;
+            margin-bottom: 2px; /* Reduced margin */
+        }
+        
+        .detail-value {
+            color: #333;
+            font-size: 12px; /* Smaller font */
+            padding: 6px 8px; /* Reduced padding */
+            background: #f8f9fa;
+            border-radius: 5px;
+            min-height: 32px; /* Reduced height */
+            display: flex;
+            align-items: center;
+        }
+        
+        .machine-nav-container {
+            position: relative;
+        }
+        
+        .machine-slide {
+            min-height: auto; /* Removed fixed height */
+        }
+        
+        .machine-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 28px; /* Smaller nav buttons */
+            height: 28px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+            z-index: 2;
+            font-size: 12px; /* Smaller arrow */
+        }
+        
+        .machine-nav.prev {
+            left: -10px;
+        }
+        
+        .machine-nav.next {
+            right: -10px;
+        }
+        
+        .machine-nav.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .machine-indicator {
+            text-align: center;
+            margin: 8px 0; /* Reduced margin */
+            color: #666;
+            font-size: 12px; /* Smaller font */
+        }
+        
+        .select-btn {
+            width: 100%;
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 8px; /* Reduced padding */
+            border-radius: 5px;
+            font-size: 14px; /* Slightly smaller */
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .select-btn:hover {
+            background: #0d5bba;
+        }
+        
+        /* Complaint Section */
+        .complaint-section {
+            margin-top: 15px;
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+            display: none;
+        }
+        
+        .complaint-section.visible {
+            display: block;
+        }
+        
+        .selection-status {
+            padding: 8px; /* Reduced padding */
+            border-radius: 5px;
+            margin-bottom: 12px; /* Reduced margin */
+            font-size: 13px; /* Smaller font */
+            text-align: center;
+        }
+        
+        .selection-status.unselected {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+        
+        .selection-status.selected {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+        
+        .form-group {
+            margin-bottom: 12px; /* Reduced margin */
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 4px; /* Reduced margin */
+            color: #1a73e8;
+            font-size: 13px; /* Smaller font */
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px; /* Reduced padding */
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 13px; /* Smaller font */
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.1);
+        }
+        
+        .other-textarea {
+            display: none;
+            margin-top: 8px; /* Reduced margin */
+        }
+        
+        .other-textarea.visible {
+            display: block;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 10px; /* Slightly reduced */
+            border-radius: 5px;
+            font-size: 14px; /* Slightly smaller */
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .submit-btn:hover {
+            background: #0d5bba;
+        }
+        
+        /* Tablet and Desktop Styles */
+        @media (min-width: 768px) {
+            .navbar {
+                padding: 20px 40px;
+            }
+            
+            .navbar .brand {
+                font-size: 22px;
+            }
+            
+            .navbar a {
+                font-size: 16px;
+                margin-left: 30px;
+            }
+            
+            .search-page {
+                padding: 100px 20px 40px;
+            }
+            
+            .container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .image {
+                width: 50%;
+                max-width: 600px;
+                margin-bottom: 0;
+            }
+            
+            .search-section {
+                position: relative;
+                width: 45%;
+                margin-left: 5%;
+            }
+            
+            .content-container {
+                padding: 20px;
+            }
+            
+            .customer-machine-container {
+                flex-direction: row;
+                gap: 15px; /* Restore original gap */
+            }
+            
+            .customer-box {
+                flex: 1;
+                min-width: 300px;
+                padding: 15px; /* Restore original padding */
+            }
+            
+            .machine-box {
+                flex: 1;
+                min-width: 300px;
+                padding: 15px; /* Restore original padding */
+            }
+            
+            .details-grid {
+                grid-template-columns: 1fr 1fr 1fr; /* Three columns for desktop */
+                gap: 12px; /* Restore original gap */
+            }
+            
+            .header {
+                padding: 15px 25px;
+                font-size: 20px;
+            }
+            
+            .section-title {
+                font-size: 18px;
+                margin-bottom: 15px; /* Restore original margin */
+            }
+            
+            .section-title svg {
+                margin-right: 10px; /* Restore original margin */
+                width: 18px; /* Restore original size */
+                height: 18px;
+            }
+            
+            .detail-label {
+                font-size: 14px; /* Restore original size */
+            }
+            
+            .detail-value {
+                font-size: 14px; /* Restore original size */
+                padding: 8px 10px; /* Restore original padding */
+                min-height: 36px; /* Restore original height */
+            }
+            
+            .machine-nav {
+                width: 30px; /* Restore original size */
+                height: 30px;
+                font-size: 14px; /* Restore original size */
+            }
+            
+            .machine-indicator {
+                font-size: 13px; /* Restore original size */
+                margin: 10px 0; /* Restore original margin */
+            }
+            
+            .select-btn {
+                padding: 10px; /* Restore original padding */
+                font-size: 15px; /* Restore original size */
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">IFB</div>
+        <div class="navbar-links">
+            <a href="#">Home</a>
+            <a href="#">Support</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
+    
+    <!-- Search Page -->
+    <div class="search-page" id="searchPage">
+        <div class="container">
+            <img src="idw.png" alt="Industrial Washing Machine" class="image">
+            <div class="search-section">
+                <h2>Industrial Service Call Booking</h2>
+                <div class="search-box">
+                    <div class="search-box-input-container">
+                        <input type="text" id="customerSearch" placeholder="Enter customer name" autocomplete="off">
+                        <button id="searchButton">
+                            <img src="https://cdn-icons-png.flaticon.com/512/622/622669.png" alt="Search Icon">
+                        </button>
+                    </div>
+                    <div class="suggestions" id="suggestions"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Customer Details Page -->
+    <div class="details-page" id="detailsPage">
+        <button class="back-btn" onclick="goBackToSearch()">←</button>
+
+        <div class="main-container slide-in">
+            <div class="header">
+                Customer & Machine Details
+            </div>
+            
+            <div class="content-container">
+                <div class="customer-machine-container">
+                    <div class="customer-box">
+                        <div class="section-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="#1a73e8"/>
+                                <path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z" fill="#1a73e8"/>
+                            </svg>
+                            Customer Details
+                        </div>
+                        
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <div class="detail-label">Customer Name</div>
+                                <div class="detail-value" id="custName">Sterling Resort</div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-label">Alternate Name</div>
+                                <div class="detail-value" id="custAltName">Sterling Holiday Resort</div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-label">City</div>
+                                <div class="detail-value" id="custCity">Salem</div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-label">Branch</div>
+                                <div class="detail-value" id="custBranch">0011002481</div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-label">Pincode</div>
+                                <div class="detail-value" id="custPincode">640081</div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-label">Region</div>
+                                <div class="detail-value" id="custRegion">South</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="machine-box" id="machineBox">
+                        <div class="section-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 20H19V18H5V20ZM19 9H15V3H9V9H5L12 16L19 9Z" fill="#1a73e8"/>
+                            </svg>
+                            Machine Details
+                        </div>
+                        
+                        <div class="machine-nav prev" onclick="prevMachine()">❮</div>
+                        
+                        <div class="machine-slide" id="machineSlide">
+                            <!-- Machine slides will be inserted here by JavaScript -->
+                        </div>
+                        
+                        <div class="machine-nav next" onclick="nextMachine()">❯</div>
+                        
+                        <div class="machine-indicator" id="machineIndicator">Machine 1 of 3</div>
+                        
+                        <button class="select-btn" onclick="selectMachine()">Select</button>
+                    </div>
+                </div>
+                
+                <div class="complaint-section" id="complaintSection">
+                    <div class="selection-status unselected" id="selectionStatus">
+                        Machine Selected: No machine selected
+                    </div>
+                    <h3>Book a Complaint</h3>
+                    
+                    <div class="form-group">
+                        <label for="issueType">Select Issue Type</label>
+                        <select id="issueType" class="form-control" onchange="toggleOtherField()">
+                            <option value="">-- Select Issue --</option>
+                            <option value="water_leakage">Water Leakage</option>
+                            <option value="display_problem">Display Problem</option>
+                            <option value="not_working">Machine Stopped Working</option>
+                            <option value="not_turning_on">Machine Not Turning On</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="other-textarea" id="otherTextarea">
+                        <label for="otherDetails">Please specify</label>
+                        <textarea id="otherDetails" class="form-control" rows="3"></textarea>
+                    </div>
+                    
+                    <button class="submit-btn" onclick="submitComplaint()">Book Complaint</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Sample customer data for suggestions
+        const customers = [
+            {
+                name: "Sterling Resort",
+                altName: "Sterling Holiday Resort",
+                city: "Salem",
+                branch: "0011002481",
+                pincode: "640081",
+                region: "South",
+                machines: [
+                    {
+                        productName: "Washer TF3JXSP67899",
+                        productCategory: "IWM",
+                        serialNo: "89675433220083",
+                        status: "Active",
+                        purchaseDate: "11-12-2018",
+                        contractDate: "N/A"
+                    },
+                    {
+                        productName: "Dryer DR4KXSP12345",
+                        productCategory: "IDM",
+                        serialNo: "12345678901234",
+                        status: "Active",
+                        purchaseDate: "15-03-2020",
+                        contractDate: "15-03-2021"
+                    }
+                ]
+            },
+            {
+                name: "Taj Hotels",
+                altName: "Taj Group",
+                city: "Chennai",
+                branch: "0011002482",
+                pincode: "600001",
+                region: "South",
+                machines: [
+                    {
+                        productName: "Washer TF5JXSP98765",
+                        productCategory: "IWM",
+                        serialNo: "98765432109876",
+                        status: "In Maintenance",
+                        purchaseDate: "22-07-2019",
+                        contractDate: "22-07-2020"
+                    }
+                ]
+            },
+            {
+                name: "Oberoi Hotels",
+                altName: "Oberoi Group",
+                city: "Bangalore",
+                branch: "0011002483",
+                pincode: "560001",
+                region: "South",
+                machines: [
+                    {
+                        productName: "Washer TF6JXSP54321",
+                        productCategory: "IWM",
+                        serialNo: "54321678901234",
+                        status: "Active",
+                        purchaseDate: "10-01-2021",
+                        contractDate: "10-01-2022"
+                    }
+                ]
+            },
+            {
+                name: "ITC Grand Chola",
+                altName: "ITC Hotels",
+                city: "Chennai",
+                branch: "0011002484",
+                pincode: "600032",
+                region: "South",
+                machines: [
+                    {
+                        productName: "Washer TF7JXSP12345",
+                        productCategory: "IWM",
+                        serialNo: "12345098765432",
+                        status: "Active",
+                        purchaseDate: "05-06-2020",
+                        contractDate: "05-06-2021"
+                    },
+                    {
+                        productName: "Dryer DR5KXSP67890",
+                        productCategory: "IDM",
+                        serialNo: "67890123456789",
+                        status: "Active",
+                        purchaseDate: "05-06-2020",
+                        contractDate: "05-06-2021"
+                    }
+                ]
+            },
+            {
+                name: "The Leela Palace",
+                altName: "Leela Hotels",
+                city: "Bangalore",
+                branch: "0011002485",
+                pincode: "560008",
+                region: "South",
+                machines: [
+                    {
+                        productName: "Washer TF8JXSP45678",
+                        productCategory: "IWM",
+                        serialNo: "45678901234567",
+                        status: "In Maintenance",
+                        purchaseDate: "15-09-2019",
+                        contractDate: "15-09-2020"
+                    }
+                ]
+            }
+        ];
+        
+        // Machine data (will be populated when customer is selected)
+        let machines = [];
+        let currentMachineIndex = 0;
+        let selectedMachineIndex = -1;
+        
+        // DOM elements
+        const searchPage = document.getElementById('searchPage');
+        const detailsPage = document.getElementById('detailsPage');
+        const customerSearch = document.getElementById('customerSearch');
+        const suggestions = document.getElementById('suggestions');
+        const searchButton = document.getElementById('searchButton');
+        const machineSlide = document.getElementById('machineSlide');
+        const machineIndicator = document.getElementById('machineIndicator');
+        const machineBox = document.getElementById('machineBox');
+        const complaintSection = document.getElementById('complaintSection');
+        const otherTextarea = document.getElementById('otherTextarea');
+        
+        // Customer detail elements
+        const custName = document.getElementById('custName');
+        const custAltName = document.getElementById('custAltName');
+        const custCity = document.getElementById('custCity');
+        const custBranch = document.getElementById('custBranch');
+        const custPincode = document.getElementById('custPincode');
+        const custRegion = document.getElementById('custRegion');
+        
+        // Event listeners
+        customerSearch.addEventListener('input', showSuggestions);
+        searchButton.addEventListener('click', searchCustomer);
+        document.addEventListener('click', (e) => {
+            if (!customerSearch.contains(e.target) && !suggestions.contains(e.target)) {
+                suggestions.style.display = 'none';
+            }
+        });
+        
+        // Show suggestions based on input
+        function showSuggestions() {
+            const input = customerSearch.value.toLowerCase();
+            suggestions.innerHTML = '';
+            
+            if (input.length === 0) {
+                suggestions.style.display = 'none';
+                return;
+            }
+            
+            // Create a combined array of customer names, alternative names, and product names
+            const searchData = [];
+            
+            customers.forEach(customer => {
+                // Add customer name and alternative name
+                searchData.push({
+                    type: 'customer',
+                    display: customer.name,
+                    matchField: customer.name.toLowerCase(),
+                    customer: customer
+                });
+                
+                if (customer.altName) {
+                    searchData.push({
+                        type: 'customer',
+                        display: customer.altName,
+                        matchField: customer.altName.toLowerCase(),
+                        customer: customer
+                    });
+                }
+                
+                // Add product names for this customer
+                customer.machines.forEach(machine => {
+                    searchData.push({
+                        type: 'product',
+                        display: `${machine.productName} (${customer.name})`,
+                        matchField: machine.productName.toLowerCase(),
+                        customer: customer
+                    });
+                });
+            });
+            
+            // Filter based on input
+            const filtered = searchData.filter(item => 
+                item.matchField.includes(input) || 
+                item.display.toLowerCase().includes(input)
+            );
+            
+            if (filtered.length === 0) {
+                suggestions.innerHTML = '<div class="suggestion-item no-results">No matching customers or products found</div>';
+                suggestions.style.display = 'block';
+                return;
+            }
+            
+            // Sort results - exact matches first, then partial matches
+            filtered.sort((a, b) => {
+                const aExact = a.matchField === input || a.display.toLowerCase() === input;
+                const bExact = b.matchField === input || b.display.toLowerCase() === input;
+                
+                if (aExact && !bExact) return -1;
+                if (!aExact && bExact) return 1;
+                
+                // If both are exact or both are partial, sort alphabetically
+                return a.display.localeCompare(b.display);
+            });
+            
+            // Display results
+            filtered.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'suggestion-item';
+                
+                // Highlight matching text
+                const displayText = highlightMatch(item.display, input);
+                
+                // Add icon based on type
+                const icon = item.type === 'customer' ? 
+                    '<svg width="16" height="16" viewBox="0 0 24 24" fill="#1a73e8" style="margin-right: 8px;"><path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"/><path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z"/></svg>' :
+                    '<svg width="16" height="16" viewBox="0 0 24 24" fill="#1a73e8" style="margin-right: 8px;"><path d="M5 20H19V18H5V20ZM19 9H15V3H9V9H5L12 16L19 9Z"/></svg>';
+                
+                div.innerHTML = icon + displayText;
+                
+                div.addEventListener('click', () => {
+                    customerSearch.value = item.type === 'customer' ? item.customer.name : item.customer.name;
+                    suggestions.style.display = 'none';
+                    loadCustomerDetails(item.customer);
+                    
+                    // If it's a product search, highlight the matching machine
+                    if (item.type === 'product') {
+                        setTimeout(() => {
+                            const machineIndex = item.customer.machines.findIndex(m => 
+                                m.productName.toLowerCase() === item.matchField
+                            );
+                            if (machineIndex !== -1) {
+                                currentMachineIndex = machineIndex;
+                                renderMachine();
+                            }
+                        }, 100);
+                    }
+                });
+                
+                suggestions.appendChild(div);
+            });
+            
+            suggestions.style.display = 'block';
+        }
+        
+        // Helper function to highlight matching text
+        function highlightMatch(text, search) {
+            if (!search) return text;
+            
+            // Escape special regex characters
+            const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(${escapedSearch})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+        
+        // Search for customer
+        function searchCustomer() {
+            const input = customerSearch.value.trim();
+            if (!input) return;
+            
+            // Search in both customer names and product names
+            const foundCustomer = customers.find(customer => 
+                customer.name.toLowerCase() === input.toLowerCase() || 
+                customer.altName.toLowerCase() === input.toLowerCase() ||
+                customer.machines.some(machine => 
+                    machine.productName.toLowerCase() === input.toLowerCase()
+                )
+            );
+            
+            if (foundCustomer) {
+                loadCustomerDetails(foundCustomer);
+                
+                // If the search matches a product name, highlight that machine
+                const productMatch = foundCustomer.machines.find(machine => 
+                    machine.productName.toLowerCase() === input.toLowerCase()
+                );
+                
+                if (productMatch) {
+                    currentMachineIndex = foundCustomer.machines.indexOf(productMatch);
+                    renderMachine();
+                }
+            } else {
+                alert('Customer or product not found');
+            }
+        }
+        
+        // Load customer details and show details page
+        function loadCustomerDetails(customer) {
+            // Set customer details
+            custName.textContent = customer.name;
+            custAltName.textContent = customer.altName;
+            custCity.textContent = customer.city;
+            custBranch.textContent = customer.branch;
+            custPincode.textContent = customer.pincode;
+            custRegion.textContent = customer.region;
+            
+            // Set machines data
+            machines = customer.machines;
+            currentMachineIndex = 0;
+            selectedMachineIndex = -1;
+            
+            // Reset complaint section
+            complaintSection.classList.remove('visible');
+            document.getElementById('issueType').value = '';
+            document.getElementById('otherDetails').value = '';
+            otherTextarea.classList.remove('visible');
+            machineBox.classList.remove('selected');
+            
+            // Render first machine
+            renderMachine();
+            
+            // Transition to details page
+            searchPage.style.opacity = '0';
+            searchPage.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                searchPage.style.display = 'none';
+                detailsPage.classList.add('visible');
+            }, 500);
+        }
+        
+        // Go back to search page
+        function goBackToSearch() {
+            detailsPage.classList.remove('visible');
+            searchPage.style.display = 'flex';
+            setTimeout(() => {
+                searchPage.style.opacity = '1';
+                searchPage.style.transform = 'translateY(0)';
+            }, 50);
+            // Reset selection status
+            const selectionStatus = document.getElementById('selectionStatus');
+            selectionStatus.textContent = 'Machine Selected: No machine selected';
+            selectionStatus.classList.remove('selected');
+            selectionStatus.classList.add('unselected');
+        }
+        
+        // Initialize the carousel
+        function renderMachine() {
+            const machine = machines[currentMachineIndex];
+            
+            machineSlide.innerHTML = `
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <div class="detail-label">Product Name</div>
+                        <div class="detail-value">${machine.productName}</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Product Category</div>
+                        <div class="detail-value">${machine.productCategory}</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Serial No</div>
+                        <div class="detail-value">${machine.serialNo}</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Status</div>
+                        <div class="detail-value">${machine.status}</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Purchase Date</div>
+                        <div class="detail-value">${machine.purchaseDate}</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Contract Date</div>
+                        <div class="detail-value">${machine.contractDate}</div>
+                    </div>
+                </div>
+            `;
+            
+            machineIndicator.textContent = `Machine ${currentMachineIndex + 1} of ${machines.length}`;
+            
+            // Update nav button states
+            document.querySelector('.machine-nav.prev').classList.toggle('disabled', currentMachineIndex === 0);
+            document.querySelector('.machine-nav.next').classList.toggle('disabled', currentMachineIndex === machines.length - 1);
+        }
+        
+        function nextMachine() {
+            if (currentMachineIndex < machines.length - 1) {
+                currentMachineIndex++;
+                renderMachine();
+            }
+        }
+        
+        function prevMachine() {
+            if (currentMachineIndex > 0) {
+                currentMachineIndex--;
+                renderMachine();
+            }
+        }
+        
+        function selectMachine() {
+            selectedMachineIndex = currentMachineIndex;
+            machineBox.classList.add('selected');
+            // Update selection status display
+            const selectionStatus = document.getElementById('selectionStatus');
+            selectionStatus.textContent = `Machine Selected: ${machines[currentMachineIndex].productName}`;
+            selectionStatus.classList.remove('unselected');
+            selectionStatus.classList.add('selected');
+            complaintSection.classList.add('visible');
+            
+            // Scroll to complaint section
+            complaintSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function toggleOtherField() {
+            const issueType = document.getElementById('issueType').value;
+            otherTextarea.classList.toggle('visible', issueType === 'other');
+        }
+        
+        function submitComplaint() {
+            const issueType = document.getElementById('issueType').value;
+            const otherDetails = document.getElementById('otherDetails').value;
+            
+            if (!issueType) {
+                alert('Please select an issue type');
+                return;
+            }
+            
+            if (issueType === 'other' && !otherDetails.trim()) {
+                alert('Please provide details about the issue');
+                return;
+            }
+            
+            // Here you would typically send the data to a server
+            const selectedMachine = machines[selectedMachineIndex];
+            const issueDescription = issueType === 'other' ? otherDetails : document.getElementById('issueType').options[document.getElementById('issueType').selectedIndex].text;
+            
+            alert(`Complaint booked for:\n\nCustomer: ${custName.textContent}\nMachine: ${selectedMachine.productName}\nSerial: ${selectedMachine.serialNo}\n\nIssue: ${issueDescription}`);
+            
+            // Reset form
+            document.getElementById('issueType').value = '';
+            document.getElementById('otherDetails').value = '';
+            otherTextarea.classList.remove('visible');
+        }
+    </script>
+</body>
+</html>
