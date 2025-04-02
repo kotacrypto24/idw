@@ -647,6 +647,46 @@
 .machine-nav:active {
   animation: pulse 0.3s ease;
 }
+
+
+.navigation-note {
+    display: flex;
+    align-items: center;
+    background-color: #f0f7ff;
+    border: 1px solid #cce0ff;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin: 10px 0;
+    font-size: 12px;
+}
+
+.note-icon {
+    margin-right: 8px;
+    font-size: 14px;
+    color: #007bff;
+}
+
+.note-text {
+    flex: 1;
+}
+
+.nav-symbol {
+    color: #007bff;
+    font-weight: bold;
+    margin: 0 2px;
+}
+
+/* For mobile devices */
+@media (max-width: 767px) {
+    .navigation-note {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+    
+    .note-icon {
+        font-size: 12px;
+    }
+}
     </style>
 </head>
 <body>
@@ -744,6 +784,13 @@
                         <div class="machine-nav next" onclick="nextMachine()">❯</div>
                         
                         <div class="machine-indicator" id="machineIndicator">Machine 1 of 3</div>
+                        <div class="navigation-note">
+                            <div class="note-icon">ℹ️</div>
+                            <div class="note-text">
+                                <strong>Note:</strong> Use <span class="nav-symbol">❮</span> and <span class="nav-symbol">❯</span> buttons to navigate between machines if customer has multiple machines
+                            </div>
+                        </div>
+                        
                         
                         <button class="select-btn" onclick="selectMachine()">Select</button>
                     </div>
