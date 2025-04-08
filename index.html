@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrial Service Login</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .brand {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 0.9rem;
+            transition: transform 0.2s;
+        }
+
+        .navbar a:hover {
+            transform: scale(1.05);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px 40px;
+            width: 100%;
+            gap: 40px;
+        }
+
+        .image-container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .image {
+            width: 100%;
+            max-height: 65vh;
+            object-fit: contain;
+            animation: float 3s infinite alternate ease-in-out;
+        }
+
+        @keyframes float {
+            from { transform: translateY(0); }
+            to { transform: translateY(-20px); }
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #007bff;
+            margin: 0 0 25px 0;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-box {
+            display: flex;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+        }
+
+        .input-box:hover {
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .input-box input {
+            flex: 1;
+            border: none;
+            padding: 15px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .action-button {
+            width: 100%;
+            padding: 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .action-button:hover {
+            background: #0056b3;
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .otp-message {
+            color: #666;
+            font-size: 0.95rem;
+            text-align: center;
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+
+        .resend-link {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        @media (min-width: 992px) {
+            .main-content {
+                flex-direction: row;
+                justify-content: space-evenly;
+                align-items: center;
+                padding: 100px 5% 50px;
+                gap: 50px;
+            }
+            
+            .image-container {
+                max-width: 1000px;
+                flex: 1.2;
+            }
+            
+            .image {
+                max-height: 70vh;
+            }
+            
+            .login-container {
+                flex: 0.8;
+                max-width: 500px;
+                padding: 40px;
+            }
+            
+            h2 {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 70px 15px 30px;
+                gap: 30px;
+            }
+            
+            .image-container {
+                max-height: 350px;
+                padding: 10px;
+            }
+            
+            .image {
+                max-height: 300px;
+            }
+            
+            .login-container {
+                padding: 25px;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+            
+            .input-box input {
+                padding: 12px;
+            }
+            
+            .action-button {
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 12px 5%;
+            }
+            
+            .navbar .brand {
+                font-size: 1.1rem;
+            }
+            
+            .nav-links {
+                gap: 10px;
+            }
+            
+            .navbar a {
+                font-size: 0.8rem;
+            }
+            
+            .main-content {
+                padding: 70px 10px 20px;
+                gap: 20px;
+            }
+            
+            .image-container {
+                max-height: 250px;
+            }
+            
+            .image {
+                max-height: 240px;
+            }
+            
+            .login-container {
+                padding: 20px;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">IFB</div>
+        
+    </nav>
+    
+    <div class="main-content">
+        <div class="image-container">
+            <img src="idw sr.png" alt="Industrial Service" class="image">
+        </div>
+        
+        <div class="login-container">
+            <h2>Login with OTP</h2>
+            
+            <div id="phoneGroup">
+                <div class="input-group">
+                    <div class="input-box">
+                        <input type="tel" 
+                               id="phoneInput" 
+                               placeholder="Enter 10-digit mobile number" 
+                               pattern="[0-9]{10}" 
+                               inputmode="numeric"
+                               maxlength="10"
+                               required>
+                    </div>
+                </div>
+                <button class="action-button" onclick="sendOTP()">
+                    Send OTP
+                </button>
+            </div>
+            
+            <div id="otpGroup" style="display: none;">
+                <p class="otp-message" id="otpSentMessage"></p>
+                
+                <div class="input-group">
+                    <div class="input-box">
+                        <input type="number" 
+                               id="otpInput" 
+                               placeholder="Enter 6-digit OTP" 
+                               pattern="[0-9]{6}" 
+                               inputmode="numeric"
+                               maxlength="6"
+                               required>
+                    </div>
+                </div>
+                
+                <button class="action-button" onclick="login()">
+                    Verify & Login
+                </button>
+                
+                <p class="otp-message">
+                    Didn't receive OTP? <a href="#" onclick="resendOTP()" class="resend-link">Resend</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function sendOTP() {
+            const phoneInput = document.getElementById('phoneInput');
+            const phone = phoneInput.value;
+            
+            if (!phone || phone.length !== 10 || !/^\d+$/.test(phone)) {
+                alert('Please enter a valid 10-digit mobile number');
+                phoneInput.focus();
+                return;
+            }
+            
+            document.getElementById('phoneGroup').style.display = 'none';
+            document.getElementById('otpGroup').style.display = 'block';
+            document.getElementById('otpSentMessage').textContent = 
+                `OTP has been sent to ******${phone.slice(-4)}`;
+            
+            // Scroll to top on mobile to ensure form is visible
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function resendOTP() {
+            alert('OTP has been resent to your mobile number');
+        }
+
+        function login() {
+            const otpInput = document.getElementById('otpInput');
+            const otp = otpInput.value;
+            
+            if (!otp || otp.length !== 6 || !/^\d+$/.test(otp)) {
+                alert('Please enter a valid 6-digit OTP');
+                otpInput.focus();
+                return;
+            }
+            
+            alert('Login successful!');
+            // Add your actual login logic here
+        }
+    </script>
+</body>
+</html>
